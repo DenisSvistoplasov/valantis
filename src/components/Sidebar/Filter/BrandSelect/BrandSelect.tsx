@@ -7,13 +7,17 @@ interface BrandSelectProps {
 }
 
 export function BrandSelect({ brands, onChange }: BrandSelectProps) {
-  const onChange_ = (e:ChangeEvent<HTMLSelectElement>) => onChange(e.target.value);
+  const onChange_ = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value === "default brand") onChange("");
+    else onChange(e.target.value);
+  };
 
   return (
     <div className={styles.wrapper}>
       <h3 className={styles.title}>Brand</h3>
       <select className={styles.select} onChange={onChange_}>
-        <option className={styles.option} value={"default"}>
+        <option className={styles.option} value={"default brand"}>
           Any brand
         </option>
         {brands.map((brand) => (

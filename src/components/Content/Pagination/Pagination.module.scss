@@ -1,0 +1,47 @@
+@use '../../../styles/variables.scss' as *;
+
+.wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn {
+  @include transition;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 30px;
+  aspect-ratio: 1;
+  border-radius: 100%;
+  border: 1px solid $second-color;
+  line-height: 1;
+
+  &:disabled {
+    color: transparentize($second-color, .5);
+    background-color: transparentize($second-color, .7);
+    border-color: transparentize($second-color, .7);
+
+    &.active {
+      font-weight: 700;
+      color: $prime-color;
+      background-color: $second-color;
+      border-color: $second-color;
+    }
+  }
+
+  &.prev {
+    margin-right: 10px;
+  }
+
+  &.next {
+    margin-left: 10px;
+  }
+
+  &:hover {
+    background-color: #a11;
+  }
+
+}

@@ -1,0 +1,18 @@
+@use './styles/variables.scss' as *;
+
+.app {
+  display: grid;
+  grid-template:
+    'header header' 50px
+    'sidebar content' /
+    200px auto;
+  height: 100vh;
+  overflow-y: hidden;
+  color: $second-color;
+  background-color: $prime-color;
+}
+
+.header {
+  grid-area: header;
+  text-align: center;
+}

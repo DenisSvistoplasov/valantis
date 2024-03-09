@@ -1,0 +1,16 @@
+@use '../../../../styles/variables.scss' as *;
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {}
+
+.select {
+  padding: 2px 4px;
+  border: 1px solid $second-color;
+  border-radius: 3px;
+}
+
+.option {}

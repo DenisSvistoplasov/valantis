@@ -1,13 +1,17 @@
-import { ChangeEvent } from 'react';
-import styles from './PriceSelect.module.scss';
+import { ChangeEvent } from "react";
+import styles from "./PriceSelect.module.scss";
 
-interface PriceSelectProps{
+interface PriceSelectProps {
   prices: string[];
-  onChange: (value: string) => void;
+  onChange: (value: number | null) => void;
 }
 
 export function PriceSelect({ prices, onChange }: PriceSelectProps) {
-  const onChange_ = (e:ChangeEvent<HTMLSelectElement>) => onChange(e.target.value);
+  const onChange_ = (e: ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    if (value === "default") onChange(null);
+    else onChange(+e.target.value);
+  };
 
   return (
     <div className={styles.wrapper}>

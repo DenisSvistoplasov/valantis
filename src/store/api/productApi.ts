@@ -3,26 +3,67 @@ import { baseQuery } from "./baseQuery";
 import { ApiAction, IFilter, IProduct } from "../../types";
 import { RootState } from "../store";
 import { selectFilter } from "../filterSlice";
-//  @ts-ignore
+import { setTotalItems } from "../totalItems";
+
+const retrieveData = <T>(res: { result: T }) => res.result;
+const uniqueize = <T>(arr: T[]) => Array.from(new Set(arr));
+
 export const productApi = createApi({
   reducerPath: "products",
   baseQuery,
   endpoints: (builder) => ({
+    getIds: builder.query<string[], { offset: number; limit: number }>({
+      query: (pagination) => ({
+        url: "",
+        body: {
+          action: ApiAction.getIds,
+          params: pagination,
+        },
+      }),
+      transformResponse: (response: { result: string[] }) => {
+        return uniqueize(retrieveData(response));
+      },
+    }),
+    getAllPrices: builder.query<string[], void>({
+      query: () => ({
+        url: "",
+        body: {
+          action: ApiAction.getFields,
+          params: { field: "price" },
+        },
+      }),
+      transformResponse: (response: { result: string[] }) => {
+        return uniqueize(retrieveData(response)).sort((a, b) => +a - +b);
+      },
+      onQueryStarted: async (arg, {dispatch, queryFulfilled}) => {
+        const pricesCount = (await queryFulfilled).data.length;
+        dispatch(setTotalItems(pricesCount));
+      },
+    }),
+    getAllBrands: builder.query<string[], void>({
+      query: () => ({
+        url: "",
+        body: {
+          action: ApiAction.getFields,
+          params: { field: "brand" },
+        },
+      }),
+      transformResponse: (response: { result: string[] }) => {
+        return uniqueize(retrieveData(response))
+          .filter((brand) => brand)
+          .sort();
+      },
+    }),
     getIdsByFilter: builder.query<string[], IFilter>({
-      queryFn: async (filter, api, extraOptions, baseQuery) => {
-        try {
-          const { data } = await baseQuery({
-            url: "",
-            body: {
-              action: ApiAction.filter,
-              params: filter,
-            },
-          });
-          console.log("data: ", data);
-          return { data: data as string[] };
-        } catch (error) {
-          return { error: error as FetchBaseQueryError };
-        }
+      query: (filter) => ({
+        url: "",
+        body: {
+          action: ApiAction.filter,
+          params: filter,
+        },
+      }),
+      transformResponse: (response: { result: string[] }) => {
+        return uniqueize(retrieveData(response));
       },
     }),
     getProductsById: builder.query<IProduct[], string[]>({
@@ -35,32 +76,22 @@ export const productApi = createApi({
           },
         },
       }),
-    }),
-    getProducts: builder.query<IProduct[], undefined>({
-      queryFn: async (arg, api, extraOptions, baseQuery) => {
-        const dispatch = api.dispatch;
-        const state = api.getState() as RootState;
-        const filter = selectFilter(state);
-
-        try {
-          const { data: ids } = await dispatch(
-            productApi.endpoints.getIdsByFilter.initiate(filter)
-          );
-          console.log("ids: ", ids);
-          if (!ids) return { data: [] };
-
-//  @ts-ignore
-          const { data: products } = await dispatch(
-            productApi.endpoints.getProductsById.initiate(ids)
-          );
-          console.log("products: ", products);
-          return { data: products || [] };
-        } catch (error) {
-          return { error: error as FetchBaseQueryError };
-        }
+      transformResponse: (response: { result: IProduct[] }) => {
+        const ids = {} as { [key: string]: boolean };
+        const products = response.result.filter((product) => {
+          if (product.id in ids) return false;
+          return (ids[product.id] = true);
+        });
+        return products;
       },
     }),
   }),
 });
 
-export const { getIdsByFilter, getProductsById, getProducts } = productApi;
+export const {
+  useGetIdsQuery,
+  useGetAllPricesQuery,
+  useGetAllBrandsQuery,
+  useGetIdsByFilterQuery,
+  useGetProductsByIdQuery,
+} = productApi;
