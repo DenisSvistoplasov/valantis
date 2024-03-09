@@ -1,8 +1,6 @@
-import { FetchBaseQueryError, createApi } from "@reduxjs/toolkit/query/react";
+import { createApi, retry } from "@reduxjs/toolkit/query/react";
 import { baseQuery } from "./baseQuery";
 import { ApiAction, IFilter, IProduct } from "../../types";
-import { RootState } from "../store";
-import { selectFilter } from "../filterSlice";
 import { setTotalItems } from "../totalItems";
 
 const retrieveData = <T>(res: { result: T }) => res.result;
@@ -10,7 +8,7 @@ const uniqueize = <T>(arr: T[]) => Array.from(new Set(arr));
 
 export const productApi = createApi({
   reducerPath: "products",
-  baseQuery,
+  baseQuery: retry(baseQuery),
   endpoints: (builder) => ({
     getIds: builder.query<string[], { offset: number; limit: number }>({
       query: (pagination) => ({
@@ -24,7 +22,7 @@ export const productApi = createApi({
         return uniqueize(retrieveData(response));
       },
     }),
-    getAllPrices: builder.query<string[], void>({
+    getAllPrices: builder.query<number[], void>({
       query: () => ({
         url: "",
         body: {
@@ -32,10 +30,10 @@ export const productApi = createApi({
           params: { field: "price" },
         },
       }),
-      transformResponse: (response: { result: string[] }) => {
-        return uniqueize(retrieveData(response)).sort((a, b) => +a - +b);
+      transformResponse: (response: { result: number[] }) => {
+        return uniqueize(retrieveData(response)).sort((a, b) => a - b);
       },
-      onQueryStarted: async (arg, {dispatch, queryFulfilled}) => {
+      onQueryStarted: async (arg, { dispatch, queryFulfilled }) => {
         const pricesCount = (await queryFulfilled).data.length;
         dispatch(setTotalItems(pricesCount));
       },

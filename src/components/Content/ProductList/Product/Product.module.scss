@@ -1,0 +1,20 @@
+.item {
+  display: grid;
+  gap: 5px;
+  border: 1px solid #fff;
+  border-radius: 3px;
+}
+
+.prop {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 2px 5px;
+  background-color: transparentize(#fff, .9);
+}
+
+.prop__name {}
+
+.prop_value {}
+
+.message {}

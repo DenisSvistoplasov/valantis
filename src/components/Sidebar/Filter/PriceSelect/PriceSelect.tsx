@@ -2,11 +2,12 @@ import { ChangeEvent } from "react";
 import styles from "./PriceSelect.module.scss";
 
 interface PriceSelectProps {
-  prices: string[];
+  value: number | undefined;
+  prices: number[];
   onChange: (value: number | null) => void;
 }
 
-export function PriceSelect({ prices, onChange }: PriceSelectProps) {
+export function PriceSelect({ value, prices, onChange }: PriceSelectProps) {
   const onChange_ = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     if (value === "default") onChange(null);
@@ -16,7 +17,7 @@ export function PriceSelect({ prices, onChange }: PriceSelectProps) {
   return (
     <div className={styles.wrapper}>
       <h3 className={styles.title}>Price</h3>
-      <select className={styles.select} onChange={onChange_}>
+      <select className={styles.select} value={value ?? 'default'} onChange={onChange_}>
         <option className={styles.option} value={"default"}>
           Any price
         </option>

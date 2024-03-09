@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import styles from "./ProductNameSearch.module.scss";
 import { debounce } from "../../../../utils/debounce";
 import { SEARCH_COOLDOWN } from "../../../../constants/searchCooldown";
@@ -24,6 +24,10 @@ export function ProductNameSearch({
     setValue(currentValue);
     debouncedOnChange(currentValue);
   };
+
+  useEffect(() => {
+    if (initialValue !== value) setValue(initialValue);
+  },[initialValue])
 
   return (
     <div className={styles.wrapper}>

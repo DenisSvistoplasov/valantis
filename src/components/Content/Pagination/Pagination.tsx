@@ -14,6 +14,7 @@ export function Pagination({
   maxSidePages = 2,
   goTo,
 }: PaginationProps) {
+  if (totalPages === 1) currentPage = 1;
   const beforeCount = Math.min(currentPage - 1, maxSidePages);
   const pagesBefore = new Array(beforeCount).fill(0).map((_, i) => {
     const pageNumber = currentPage - beforeCount + i;

@@ -2,8 +2,8 @@ import {
   useGetAllBrandsQuery,
   useGetAllPricesQuery,
 } from "../../../store/api/productApi";
-import { setBrand, setPrice, setProductName } from "../../../store/filterSlice";
-import { useAppDispatch } from "../../../store/store";
+import { resetFilter, selectFilter, setBrand, setPrice, setProductName } from "../../../store/filterSlice";
+import { useAppDispatch, useAppSelector } from "../../../store/store";
 import { BrandSelect } from "./BrandSelect/BrandSelect";
 import styles from "./Filter.module.scss";
 import { PriceSelect } from "./PriceSelect/PriceSelect";
@@ -16,18 +16,28 @@ export function Filter({}: FilterProps) {
   const { data: brands = [] } = useGetAllBrandsQuery();
 
   const dispatch = useAppDispatch();
+  const {product, brand, price} = useAppSelector(selectFilter);
 
-  const changeProductName = (value: string) => dispatch(setProductName(value));
-  const changeBrand = (value: string) => dispatch(setBrand(value));
-  const changePrice = (value: number | null) => dispatch(setPrice(value));
+  const changeProductName = (value: string) => {
+    dispatch(resetFilter());
+    dispatch(setProductName(value));
+  }
+  const changeBrand = (value: string) => {
+    dispatch(resetFilter());
+    dispatch(setBrand(value));
+  }
+  const changePrice = (value: number | null) => {
+    dispatch(resetFilter());
+    dispatch(setPrice(value));
+  }
 
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>Filter</h2>
       <div className={styles.filter}>
-        <ProductNameSearch onChange={changeProductName} />
-        <BrandSelect brands={brands} onChange={changeBrand} />
-        <PriceSelect prices={prices} onChange={changePrice} />
+        <ProductNameSearch initialValue={product} onChange={changeProductName} />
+        <BrandSelect value={brand} brands={brands} onChange={changeBrand} />
+        <PriceSelect value={price} prices={prices} onChange={changePrice} />
       </div>
     </div>
   );
