@@ -48,5 +48,6 @@
   },
   "devDependencies": {
     "gh-pages": "^6.1.1"
-  }
+  },
+  "homepage": "https://denissvistoplasov.github.io/valantis_v1/"
 }
