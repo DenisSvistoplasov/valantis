@@ -13,3 +13,5 @@ Valantis test app
 ### Deploy
 https://denissvistoplasov.github.io/valantis_v1/
 
+
+(version 2: https://github.com/DenisSvistoplasov/valantis_v2)
