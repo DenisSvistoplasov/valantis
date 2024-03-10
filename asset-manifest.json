@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/DenisSvistoplasov/valantis_v1/static/css/main.81ffaab2.css",
-    "main.js": "/DenisSvistoplasov/valantis_v1/static/js/main.74a17ece.js",
-    "static/js/453.6393fe9b.chunk.js": "/DenisSvistoplasov/valantis_v1/static/js/453.6393fe9b.chunk.js",
-    "index.html": "/DenisSvistoplasov/valantis_v1/index.html",
-    "main.81ffaab2.css.map": "/DenisSvistoplasov/valantis_v1/static/css/main.81ffaab2.css.map",
-    "main.74a17ece.js.map": "/DenisSvistoplasov/valantis_v1/static/js/main.74a17ece.js.map",
-    "453.6393fe9b.chunk.js.map": "/DenisSvistoplasov/valantis_v1/static/js/453.6393fe9b.chunk.js.map"
+    "main.css": "/valantis_v1/static/css/main.81ffaab2.css",
+    "main.js": "/valantis_v1/static/js/main.51a24589.js",
+    "static/js/453.6393fe9b.chunk.js": "/valantis_v1/static/js/453.6393fe9b.chunk.js",
+    "index.html": "/valantis_v1/index.html",
+    "main.81ffaab2.css.map": "/valantis_v1/static/css/main.81ffaab2.css.map",
+    "main.51a24589.js.map": "/valantis_v1/static/js/main.51a24589.js.map",
+    "453.6393fe9b.chunk.js.map": "/valantis_v1/static/js/453.6393fe9b.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.81ffaab2.css",
-    "static/js/main.74a17ece.js"
+    "static/js/main.51a24589.js"
   ]
 }
