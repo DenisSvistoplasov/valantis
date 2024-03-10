@@ -42,7 +42,6 @@ export function Content({}: ContentProps) {
     ? filteredIds && paginateArray(filteredIds, currentPage, ITEMS_PER_PAGE)
     : allIds;
 
-  console.log("currentIds: ", currentIds?.length);
   const {
     data: products = [],
     isFetching,
@@ -50,7 +49,6 @@ export function Content({}: ContentProps) {
   } = useGetProductsByIdQuery(currentIds!, { skip: !currentIds });
 
   const totalCurrentItems = (isFilter ? filteredIds?.length : totalItems) || 1;
-  console.log('totalCurrentItems: ', totalCurrentItems);
   const totalPages = Math.ceil(totalCurrentItems / ITEMS_PER_PAGE);
 
   const goToPage = (page: number) => setCurrentPage(page);
