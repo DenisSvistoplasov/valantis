@@ -7,6 +7,9 @@ Valantis test app
 - SASS module
 - TypeScript
 
+### Version features
+- Single filter
+
 ### Deploy
 https://denissvistoplasov.github.io/valantis_v1/
 
